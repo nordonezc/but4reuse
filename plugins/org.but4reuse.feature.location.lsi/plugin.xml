@@ -4,7 +4,7 @@
    <extension
          point="org.but4reuse.feature.location">
       <feature.location
-            class="org.but4reuse.feature.location.impl.FeatureLocationLSI"
+            class="org.but4reuse.feature.location.lsi.impl.FeatureLocationLSI"
             name="Latent Semantic Indexing Location">
       </feature.location>
    </extension>

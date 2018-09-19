@@ -1,4 +1,4 @@
-package org.but4reuse.feature.location.impl;
+package org.but4reuse.feature.location.lsi.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
