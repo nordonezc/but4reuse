@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="org.but4Reuse.feature.location.benchmark.objectContribution1"
+            nameFilter="scenarios"
+            objectClass="org.eclipse.core.resources.IResource">
+         <action
+               class="org.but4reuse.feature.location.argouml.benchmark.CreateScenariosAction"
+               id="org.but4Reuse.feature.location.benchmark.action1"
+               label="Create BUT4Reuse scenarios"
+               menubarPath="additions">
+         </action>
+      </objectContribution>
+   </extension>
+
+
+</plugin>
