@@ -146,6 +146,21 @@ public class GenerateScenarioResources {
 	}
 
 	/**
+	 * Clean the implemented artefacts founded in previous scenarios
+	 * 
+	 * @author Nicolas Ordonez Chala
+	 * @param featureMap
+	 */
+	private void cleanFeatureMap(Map<String, Feature> featureMap) {
+		try {
+			for (String featureName : featureMap.keySet())
+				featureMap.get(featureName).getImplementedInArtefacts().clear();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * Based on the scenario folder of argoUML SPL
 	 * 
 	 * @author Nicolas Ordoñez Chala
@@ -158,8 +173,7 @@ public class GenerateScenarioResources {
 		// Create map to optimize the insertion of the implemented elements
 		Map<String, Feature> featureMap = featuresDescriptionFileToMap(benchmarkFolder);
 		// Get path of the project
-		@SuppressWarnings("unused")
-		String argoUMLSPLPlatformPath = "platform:\\" + benchmarkFolder.getName() + "\\scenarios\\";
+		String argoUMLSPLPlatformPath = "platform:/resource/" + benchmarkFolder.getName() + "/scenarios/";
 		// Get path of the project
 		String argoUMLSPLAbsolutePath = scenarioFolder.getAbsolutePath();
 		// Get all the files inside the scenario Folder
@@ -173,10 +187,12 @@ public class GenerateScenarioResources {
 
 					// Create String with the path of the scenario
 					String scenarioAbsolutePath = argoUMLSPLAbsolutePath + "\\" + scenarioDirectory.getName();
+					String scenarioPlatformPath = argoUMLSPLPlatformPath + scenarioDirectory.getName();
 
 					// Init the featureList and the artefact model for each scenario
 					featureList = flf.createFeatureList();
 					artefactModel = amf.createArtefactModel();
+					cleanFeatureMap(featureMap);
 
 					// Set the name to the name of the scenario
 					featureList.setName(scenarioDirectory.getName());
@@ -205,7 +221,7 @@ public class GenerateScenarioResources {
 						Artefact variantArtefact = amf.createArtefact();
 						variantArtefact.setName(variant.getName());
 
-						variantArtefact.setArtefactURI(scenarioAbsolutePath + "\\variants\\" + variant.getName());
+						variantArtefact.setArtefactURI(scenarioPlatformPath + "/variants/" + variant.getName());
 
 						// Modify featureList updating the feature with the implemented element
 						// represented into the artefact
@@ -219,8 +235,10 @@ public class GenerateScenarioResources {
 					}
 
 					// Add each feature to the feature List
-					for (Feature f : featureMap.values())
-						featureList.getOwnedFeatures().add(f);
+					for (Feature f : featureMap.values()) {
+						if (!f.getImplementedInArtefacts().isEmpty())
+							featureList.getOwnedFeatures().add(f);
+					}
 
 					// Add the artefactmodel to the featureList
 					featureList.setArtefactModel(artefactModel);
